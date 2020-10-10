@@ -31,13 +31,18 @@ const game = {
     window.addEventListener("keydown", (e) => {
       if (e.code === "ArrowRight") {
         console.log("move right");
-        this.platform.x += 100;
+        this.platform.dx = this.platform.velocity;
+        console.log(`velocity:${this.platform.velocity}`);
       } else if (e.code === "ArrowLeft") {
         console.log("move left");
-        this.platform.x += -100;
+        this.platform.dx = -this.platform.velocity;
+        console.log(`velocity:${this.platform.velocity}`);
       }
 
       // console.log(e);
+    });
+    window.addEventListener("keyup", () => {
+      this.platform.dx = 0;
     });
   },
   preload: function (callback) {
@@ -76,6 +81,9 @@ const game = {
   },
   run: function () {
     window.requestAnimationFrame(() => {
+      if (this.platform.dx) {
+        this.platform.x += this.platform.dx;
+      }
       this.render();
       this.run();
       console.log("run is done");
@@ -100,7 +108,7 @@ const game = {
       this.ctx.drawImage(this.sprites.block, block.x, block.y);
     }
 
-    console.log("rended is done");
+    // console.log("rended is done");
   },
   start: function () {
     this.init();
@@ -119,6 +127,8 @@ game.ball = {
 };
 
 game.platform = {
+  velocity: 6,
+  dx: 0,
   x: 280,
   y: 300,
 };
