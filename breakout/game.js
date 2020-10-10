@@ -4,6 +4,7 @@
 // +todo Рефакторинг:
 //  выделение чёткой структуры
 // +todo Расставить объекты по полю
+// todo Реализовать движение платформы
 
 "use strict";
 
@@ -22,8 +23,22 @@ const game = {
   },
   init: function () {
     this.ctx = document.querySelector("#mycanvas").getContext("2d");
+    this.setEvents();
     console.log(this.ctx);
     console.log("init is done");
+  },
+  setEvents() {
+    window.addEventListener("keydown", (e) => {
+      if (e.code === "ArrowRight") {
+        console.log("move right");
+        this.platform.x += 100;
+      } else if (e.code === "ArrowLeft") {
+        console.log("move left");
+        this.platform.x += -100;
+      }
+
+      // console.log(e);
+    });
   },
   preload: function (callback) {
     let loaded = 0;
@@ -62,6 +77,7 @@ const game = {
   run: function () {
     window.requestAnimationFrame(() => {
       this.render();
+      this.run();
       console.log("run is done");
     });
   },
