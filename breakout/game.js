@@ -4,7 +4,7 @@
 // +todo Рефакторинг:
 //  выделение чёткой структуры
 // +todo Расставить объекты по полю
-// todo Реализовать движение платформы
+// +todo Реализовать движение платформы
 
 "use strict";
 
@@ -24,22 +24,14 @@ const game = {
   init: function () {
     this.ctx = document.querySelector("#mycanvas").getContext("2d");
     this.setEvents();
-    console.log(this.ctx);
-    console.log("init is done");
   },
   setEvents() {
     window.addEventListener("keydown", (e) => {
       if (e.code === "ArrowRight") {
-        console.log("move right");
         this.platform.dx = this.platform.velocity;
-        console.log(`velocity:${this.platform.velocity}`);
       } else if (e.code === "ArrowLeft") {
-        console.log("move left");
         this.platform.dx = -this.platform.velocity;
-        console.log(`velocity:${this.platform.velocity}`);
       }
-
-      // console.log(e);
     });
     window.addEventListener("keyup", () => {
       this.platform.dx = 0;
@@ -59,11 +51,9 @@ const game = {
     for (let key in this.sprites) {
       this.sprites[key] = new Image();
       this.sprites[key].src = `img/${key}.png`;
-      console.log(this.sprites[key].src);
       this.sprites[key].addEventListener("load", () => {
         loaded++;
         if (loaded >= required) {
-          console.log("preload is done");
           callback();
         }
       });
@@ -79,14 +69,14 @@ const game = {
       }
     }
   },
+  stateUpadate() {
+    this.platform.move();
+  },
   run: function () {
     window.requestAnimationFrame(() => {
-      if (this.platform.dx) {
-        this.platform.x += this.platform.dx;
-      }
+      this.stateUpadate();
       this.render();
       this.run();
-      console.log("run is done");
     });
   },
   render: function () {
@@ -107,8 +97,6 @@ const game = {
     for (let block of this.blocks) {
       this.ctx.drawImage(this.sprites.block, block.x, block.y);
     }
-
-    // console.log("rended is done");
   },
   start: function () {
     this.init();
@@ -131,6 +119,11 @@ game.platform = {
   dx: 0,
   x: 280,
   y: 300,
+  move() {
+    if (this.dx) {
+      this.x += this.dx;
+    }
+  },
 };
 
 window.addEventListener("load", () => {
