@@ -6,6 +6,8 @@
 // +todo Расставить объекты по полю
 // +todo Реализовать движение платформы
 // +todo Движение мяча вместе с платформой
+// +todo Запуск мяча
+// todo Взлет мяча под случайным углом
 
 "use strict";
 
@@ -28,7 +30,9 @@ const game = {
   },
   setEvents() {
     window.addEventListener("keydown", (e) => {
-      if (e.code === "ArrowRight" || e.code === "ArrowLeft") {
+      if (e.code === "Space") {
+        this.platform.fire();
+      } else if (e.code === "ArrowRight" || e.code === "ArrowLeft") {
         this.platform.start(e.code);
       }
     });
@@ -65,6 +69,7 @@ const game = {
   },
   stateUpadate() {
     this.platform.move();
+    this.ball.move();
   },
   run: function () {
     window.requestAnimationFrame(() => {
@@ -106,6 +111,16 @@ game.ball = {
   y: 280,
   height: 20,
   width: 20,
+  dx: 0,
+  velocity: 3,
+  start() {
+    this.dy = -this.velocity;
+  },
+  move() {
+    if (this.dy) {
+      this.y += this.dy;
+    }
+  },
 };
 
 game.platform = {
@@ -113,11 +128,18 @@ game.platform = {
   dx: 0,
   x: 280,
   y: 300,
+  ball: game.ball,
   start(direction) {
     if (direction === "ArrowRight") {
       this.dx = this.velocity;
     } else if (direction === "ArrowLeft") {
       this.dx = -this.velocity;
+    }
+  },
+  fire() {
+    if (this.ball) {
+      this.ball.start();
+      this.ball = null;
     }
   },
   stop() {
@@ -126,7 +148,9 @@ game.platform = {
   move() {
     if (this.dx) {
       this.x += this.dx;
-      game.ball.x += this.dx;
+      if (this.ball) {
+        this.ball.x += this.dx;
+      }
     }
   },
 };
