@@ -5,6 +5,7 @@
 //  выделение чёткой структуры
 // +todo Расставить объекты по полю
 // +todo Реализовать движение платформы
+// +todo Движение мяча вместе с платформой
 
 "use strict";
 
@@ -27,36 +28,29 @@ const game = {
   },
   setEvents() {
     window.addEventListener("keydown", (e) => {
-      if (e.code === "ArrowRight") {
-        this.platform.dx = this.platform.velocity;
-      } else if (e.code === "ArrowLeft") {
-        this.platform.dx = -this.platform.velocity;
+      if (e.code === "ArrowRight" || e.code === "ArrowLeft") {
+        this.platform.start(e.code);
       }
     });
     window.addEventListener("keyup", () => {
-      this.platform.dx = 0;
+      this.platform.stop();
     });
   },
   preload: function (callback) {
     let loaded = 0;
     const required = Object.keys(this.sprites).length;
-    // let onImageLoad = () => {
-    //   ++loaded;
-    //   if (loaded >= required) {
-    //     console.log("preload is done");
-    //     callback();
-    //   }
-    // };
+    let onImageLoad = () => {
+      ++loaded;
+      if (loaded >= required) {
+        console.log("preload is done");
+        callback();
+      }
+    };
 
     for (let key in this.sprites) {
       this.sprites[key] = new Image();
       this.sprites[key].src = `img/${key}.png`;
-      this.sprites[key].addEventListener("load", () => {
-        loaded++;
-        if (loaded >= required) {
-          callback();
-        }
-      });
+      this.sprites[key].addEventListener("load", onImageLoad());
     }
   },
   create() {
@@ -119,6 +113,16 @@ game.platform = {
   dx: 0,
   x: 280,
   y: 300,
+  start(direction) {
+    if (direction === "ArrowRight") {
+      this.dx = this.velocity;
+    } else if (direction === "ArrowLeft") {
+      this.dx = -this.velocity;
+    }
+  },
+  stop() {
+    this.dx = 0;
+  },
   move() {
     if (this.dx) {
       this.x += this.dx;
