@@ -9,6 +9,9 @@
 // +todo Запуск мяча
 // +todo Взлет мяча под случайным углом
 // todo Обработка столкновения мяча с блоком
+//    +* Отскок мяча от блока
+//    *  Отскок мяча от платформы
+//    *  Разрушение блока
 
 "use strict";
 
@@ -49,7 +52,6 @@ const game = {
     let onImageLoad = () => {
       ++loaded;
       if (loaded >= required) {
-        console.log("preload is done");
         callback();
       }
     };
@@ -66,6 +68,8 @@ const game = {
         this.blocks.push({
           x: 64 * col + 65,
           y: 24 * row + 35,
+          width: 60,
+          height: 20,
         });
       }
     }
@@ -73,6 +77,12 @@ const game = {
   stateUpadate() {
     this.platform.move();
     this.ball.move();
+
+    for (let block of this.blocks) {
+      if (this.ball.collide(block)) {
+        this.ball.hitBlock(block);
+      }
+    }
   },
   run: function () {
     window.requestAnimationFrame(() => {
@@ -132,6 +142,22 @@ game.ball = {
     if (this.dx) {
       this.x += this.dx;
     }
+  },
+  collide(element) {
+    let x = this.x + this.dx;
+    let y = this.y + this.dy;
+    if (
+      x + this.width > element.x &&
+      x < element.x + element.width &&
+      y + this.height > element.y &&
+      y < element.y + element.height
+    ) {
+      return true;
+    }
+    return false;
+  },
+  hitBlock(element) {
+    this.dy *= -1;
   },
 };
 
