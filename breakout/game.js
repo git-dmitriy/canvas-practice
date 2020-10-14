@@ -18,6 +18,8 @@ const game = {
   blocks: [],
   rows: 4,
   cols: 8,
+  gameBoardWidth: 640,
+  gameBoardHeight: 360,
   sprites: {
     background: null,
     ball: null,
@@ -79,6 +81,7 @@ const game = {
     });
   },
   render: function () {
+    this.ctx.clearRect(0, 0, this.gameBoardWidth, this.gameBoardHeight);
     this.ctx.drawImage(this.sprites.background, 0, 0);
     this.ctx.drawImage(
       this.sprites.ball,
