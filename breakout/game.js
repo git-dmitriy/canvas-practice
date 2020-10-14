@@ -7,7 +7,8 @@
 // +todo Реализовать движение платформы
 // +todo Движение мяча вместе с платформой
 // +todo Запуск мяча
-// todo Взлет мяча под случайным углом
+// +todo Взлет мяча под случайным углом
+// todo Обработка столкновения мяча с блоком
 
 "use strict";
 
@@ -107,21 +108,29 @@ const game = {
       this.run();
     });
   },
+  random(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+  },
 };
 
 game.ball = {
   x: 320,
   y: 280,
+  dx: 0,
+  dy: 0,
   height: 20,
   width: 20,
-  dx: 0,
   velocity: 3,
   start() {
     this.dy = -this.velocity;
+    this.dx = game.random(-this.velocity, this.velocity);
   },
   move() {
     if (this.dy) {
       this.y += this.dy;
+    }
+    if (this.dx) {
+      this.x += this.dx;
     }
   },
 };
