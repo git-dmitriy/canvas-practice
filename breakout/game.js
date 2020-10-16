@@ -181,9 +181,11 @@ game.ball = {
     element.active = false;
   },
   bounceOff(platform) {
-    this.dy *= -1;
-    let touchX = this.x + this.width / 2;
-    this.dx = this.velocity * platform.getTouchOffSet(touchX);
+    if (this.dy > 0) {
+      this.dy = -this.velocity;
+      let touchX = this.x + this.width / 2;
+      this.dx = this.velocity * platform.getTouchOffSet(touchX);
+    }
   },
 };
 
