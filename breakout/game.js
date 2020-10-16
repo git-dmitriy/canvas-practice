@@ -13,7 +13,7 @@
 //    +*  Отскок мяча от платформы
 //    +*  Разрушение блока
 // todo Обработка событий выхода элементов за игровое поле
-//    * Мяча
+//    +* Мяча
 //    * Платформы
 // todo Добавить звуковые эффекты
 // todo Завершение игры
@@ -28,8 +28,8 @@ const game = {
   blocks: [],
   rows: 4,
   cols: 8,
-  gameBoardWidth: 640,
-  gameBoardHeight: 360,
+  boardWidth: 640,
+  boardHeight: 360,
   sprites: {
     background: null,
     ball: null,
@@ -86,6 +86,7 @@ const game = {
     this.ball.move();
     this.collideblocks();
     this.collidePlatform();
+    this.ball.collideWorldBounds();
   },
   collideblocks() {
     for (let block of this.blocks) {
@@ -108,7 +109,7 @@ const game = {
     });
   },
   render: function () {
-    this.ctx.clearRect(0, 0, this.gameBoardWidth, this.gameBoardHeight);
+    this.ctx.clearRect(0, 0, this.boardWidth, this.boardHeight);
     this.ctx.drawImage(this.sprites.background, 0, 0);
     this.ctx.drawImage(
       this.sprites.ball,
@@ -175,6 +176,23 @@ game.ball = {
       return true;
     }
     return false;
+  },
+  collideWorldBounds() {
+    let x = this.x + this.dx;
+    let y = this.y + this.dy;
+
+    if (x < 0) {
+      this.x = 0;
+      this.dx = this.velocity;
+    } else if (x + this.width > game.boardWidth) {
+      this.x = game.boardWidth - this.width;
+      this.dx = -this.velocity;
+    } else if (y < 0) {
+      this.y = 0;
+      this.dy = this.velocity;
+    } else if (y + this.height > game.boardHeight) {
+      console.log("Game over");
+    }
   },
   hitBlock(element) {
     this.dy *= -1;
