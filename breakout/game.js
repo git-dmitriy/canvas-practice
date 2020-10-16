@@ -78,17 +78,22 @@ const game = {
   stateUpadate() {
     this.platform.move();
     this.ball.move();
-
+    this.collideblocks();
+    this.collidePlatform();
+  },
+  collideblocks() {
     for (let block of this.blocks) {
       if (this.ball.collide(block)) {
         this.ball.hitBlock(block);
       }
     }
-
+  },
+  collidePlatform() {
     if (this.ball.collide(this.platform)) {
       this.ball.bounceOff(this.platform);
     }
   },
+
   run: function () {
     window.requestAnimationFrame(() => {
       this.stateUpadate();
