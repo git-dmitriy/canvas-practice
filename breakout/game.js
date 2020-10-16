@@ -110,7 +110,9 @@ const game = {
       this.ball.height
     );
     this.ctx.drawImage(this.sprites.platform, this.platform.x, this.platform.y);
-
+    this.renderBlocks();
+  },
+  renderBlocks() {
     for (let block of this.blocks) {
       this.ctx.drawImage(this.sprites.block, block.x, block.y);
     }
