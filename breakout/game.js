@@ -70,6 +70,7 @@ const game = {
           y: 24 * row + 35,
           width: 60,
           height: 20,
+          active: true,
         });
       }
     }
@@ -114,7 +115,9 @@ const game = {
   },
   renderBlocks() {
     for (let block of this.blocks) {
-      this.ctx.drawImage(this.sprites.block, block.x, block.y);
+      if (block.active) {
+        this.ctx.drawImage(this.sprites.block, block.x, block.y);
+      }
     }
   },
   start: function () {
@@ -164,6 +167,7 @@ game.ball = {
   },
   hitBlock(element) {
     this.dy *= -1;
+    element.active = false;
   },
   bounceOff(platform) {
     this.dy *= -1;
