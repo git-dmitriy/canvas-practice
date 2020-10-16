@@ -11,7 +11,13 @@
 // todo Обработка столкновения мяча с блоком
 //    +* Отскок мяча от блока
 //    +*  Отскок мяча от платформы
-//    *  Разрушение блока
+//    +*  Разрушение блока
+// todo Обработка событий выхода элементов за игровое поле
+//    * Мяча
+//    * Платформы
+// todo Добавить звуковые эффекты
+// todo Завершение игры
+//    * Отображение очков
 
 "use strict";
 
@@ -83,7 +89,7 @@ const game = {
   },
   collideblocks() {
     for (let block of this.blocks) {
-      if (this.ball.collide(block)) {
+      if (this.ball.collide(block) && block.active) {
         this.ball.hitBlock(block);
       }
     }
