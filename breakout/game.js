@@ -204,7 +204,7 @@ game.ball = {
       this.dx += platform.dx;
     }
     if (this.dy > 0) {
-      this.dy = -this.velocity;
+      this.dy *= -1;
       let touchX = this.x + this.width / 2;
       this.dx = this.velocity * platform.getTouchOffSet(touchX);
     }
@@ -212,7 +212,7 @@ game.ball = {
 };
 
 game.platform = {
-  velocity: 6,
+  velocity: 8,
   dx: 0,
   x: 280,
   y: 300,
