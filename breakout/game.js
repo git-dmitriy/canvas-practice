@@ -17,6 +17,8 @@
 //    +* Платформы
 // todo Добавить звуковые эффекты
 // todo Завершение игры
+//    +* Проигрыш
+//    * Победа
 //    * Отображение очков
 
 "use strict";
@@ -30,6 +32,7 @@ const game = {
   cols: 8,
   boardWidth: 640,
   boardHeight: 360,
+  running: true,
   sprites: {
     background: null,
     ball: null,
@@ -103,12 +106,15 @@ const game = {
   },
 
   run: function () {
-    window.requestAnimationFrame(() => {
-      this.stateUpadate();
-      this.render();
-      this.run();
-    });
+    if (this.running) {
+      window.requestAnimationFrame(() => {
+        this.stateUpadate();
+        this.render();
+        this.run();
+      });
+    }
   },
+  stop() {},
   render: function () {
     this.ctx.clearRect(0, 0, this.boardWidth, this.boardHeight);
     this.ctx.drawImage(this.sprites.background, 0, 0);
@@ -192,7 +198,9 @@ game.ball = {
       this.y = 0;
       this.dy *= -1;
     } else if (y + this.height > game.boardHeight) {
-      console.log("Game over");
+      game.running = false;
+      alert("Вы проиграли!");
+      window.location.reload();
     }
   },
   hitBlock(element) {
