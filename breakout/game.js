@@ -14,7 +14,7 @@
 //    +*  Разрушение блока
 // todo Обработка событий выхода элементов за игровое поле
 //    +* Мяча
-//    * Платформы
+//    +* Платформы
 // todo Добавить звуковые эффекты
 // todo Завершение игры
 //    * Отображение очков
@@ -82,11 +82,12 @@ const game = {
     }
   },
   stateUpadate() {
+    this.ball.collideWorldBounds();
+    this.platform.collideWorldBounds();
     this.platform.move();
     this.ball.move();
     this.collideblocks();
     this.collidePlatform();
-    this.ball.collideWorldBounds();
   },
   collideblocks() {
     for (let block of this.blocks) {
@@ -244,6 +245,13 @@ game.platform = {
     let offset = this.width - diff;
     let result = (2 * offset) / this.width;
     return result - 1;
+  },
+  collideWorldBounds() {
+    let x = this.x + this.dx;
+
+    if (x <= 0 || x + this.width >= game.boardWidth) {
+      this.stop();
+    }
   },
 };
 
