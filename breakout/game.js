@@ -184,13 +184,13 @@ game.ball = {
 
     if (x < 0) {
       this.x = 0;
-      this.dx = this.velocity;
+      this.dx *= -1;
     } else if (x + this.width > game.boardWidth) {
       this.x = game.boardWidth - this.width;
-      this.dx = -this.velocity;
+      this.dx *= -1;
     } else if (y < 0) {
       this.y = 0;
-      this.dy = this.velocity;
+      this.dy *= -1;
     } else if (y + this.height > game.boardHeight) {
       console.log("Game over");
     }
