@@ -200,6 +200,9 @@ game.ball = {
     element.active = false;
   },
   bounceOff(platform) {
+    if (platform.dx) {
+      this.dx += platform.dx;
+    }
     if (this.dy > 0) {
       this.dy = -this.velocity;
       let touchX = this.x + this.width / 2;
