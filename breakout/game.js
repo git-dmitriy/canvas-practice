@@ -10,12 +10,13 @@
 // +todo Взлет мяча под случайным углом
 // todo Обработка столкновения мяча с блоком
 //    +* Отскок мяча от блока
-//    +*  Отскок мяча от платформы
-//    +*  Разрушение блока
+//    +* Отскок мяча от платформы
+//    +* Разрушение блока
 // todo Обработка событий выхода элементов за игровое поле
 //    +* Мяча
 //    +* Платформы
 // todo Добавить звуковые эффекты
+//    * Звук столкновения
 // todo Завершение игры
 //    +* Проигрыш
 //    +* Победа
@@ -40,6 +41,9 @@ const game = {
     platform: null,
     block: null,
   },
+  sounds: {
+    bump: null,
+  },
   init: function () {
     this.ctx = document.querySelector("#mycanvas").getContext("2d");
     this.setEvents();
@@ -58,8 +62,10 @@ const game = {
   },
   preload: function (callback) {
     let loaded = 0;
-    const required = Object.keys(this.sprites).length;
-    let onImageLoad = () => {
+    let required = Object.keys(this.sprites).length;
+    required += Object.keys(this.sounds).length;
+
+    let onResourceLoad = () => {
       ++loaded;
       if (loaded >= required) {
         callback();
@@ -69,7 +75,13 @@ const game = {
     for (let key in this.sprites) {
       this.sprites[key] = new Image();
       this.sprites[key].src = `img/${key}.png`;
-      this.sprites[key].addEventListener("load", onImageLoad());
+      this.sprites[key].addEventListener("load", onResourceLoad());
+    }
+    for (let key in this.sounds) {
+      this.sounds[key] = new Audio(`sounds/${key}.mp3`);
+      this.sounds[key].addEventListener("canplaythrough", onResourceLoad(), {
+        once: true,
+      });
     }
   },
   create() {
@@ -97,6 +109,7 @@ const game = {
     for (let block of this.blocks) {
       if (this.ball.collide(block) && block.active) {
         this.ball.hitBlock(block);
+        this.sounds.bump.play();
         this.addScore();
       }
     }
@@ -104,6 +117,7 @@ const game = {
   collidePlatform() {
     if (this.ball.collide(this.platform)) {
       this.ball.bounceOff(this.platform);
+      this.sounds.bump.play();
     }
   },
   addScore() {
@@ -204,12 +218,15 @@ game.ball = {
     if (x < 0) {
       this.x = 0;
       this.dx *= -1;
+      game.sounds.bump.play();
     } else if (x + this.width > game.boardWidth) {
       this.x = game.boardWidth - this.width;
       this.dx *= -1;
+      game.sounds.bump.play();
     } else if (y < 0) {
       this.y = 0;
       this.dy *= -1;
+      game.sounds.bump.play();
     } else if (y + this.height > game.boardHeight) {
       game.end("Вы проиграли!");
     }
