@@ -72,11 +72,17 @@ const game = {
       }
     };
 
+    this.preloadSprites(onResourceLoad);
+    this.preloadSounds(onResourceLoad);
+  },
+  preloadSprites(onResourceLoad) {
     for (let key in this.sprites) {
       this.sprites[key] = new Image();
       this.sprites[key].src = `img/${key}.png`;
       this.sprites[key].addEventListener("load", onResourceLoad());
     }
+  },
+  preloadSounds(onResourceLoad) {
     for (let key in this.sounds) {
       this.sounds[key] = new Audio(`sounds/${key}.mp3`);
       this.sounds[key].addEventListener("canplaythrough", onResourceLoad(), {
