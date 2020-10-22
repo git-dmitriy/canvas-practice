@@ -16,7 +16,7 @@
 //    +* Мяча
 //    +* Платформы
 // todo Добавить звуковые эффекты
-//    * Звук столкновения
+//    +* Звук столкновения
 // todo Завершение игры
 //    +* Проигрыш
 //    +* Победа
@@ -44,7 +44,7 @@ const game = {
   sounds: {
     bump: null,
   },
-  init: function () {
+  init() {
     this.ctx = document.querySelector("#mycanvas").getContext("2d");
     this.setEvents();
   },
@@ -60,7 +60,7 @@ const game = {
       this.platform.stop();
     });
   },
-  preload: function (callback) {
+  preload(callback) {
     let loaded = 0;
     let required = Object.keys(this.sprites).length;
     required += Object.keys(this.sounds).length;
@@ -127,7 +127,7 @@ const game = {
     }
   },
 
-  run: function () {
+  run() {
     if (this.running) {
       window.requestAnimationFrame(() => {
         this.stateUpadate();
@@ -136,8 +136,8 @@ const game = {
       });
     }
   },
-  stop() {},
-  render: function () {
+
+  render() {
     this.ctx.clearRect(0, 0, this.boardWidth, this.boardHeight);
     this.ctx.drawImage(this.sprites.background, 0, 0);
     this.ctx.drawImage(
@@ -161,7 +161,7 @@ const game = {
       }
     }
   },
-  start: function () {
+  start() {
     this.init();
     this.preload(() => {
       this.create();
