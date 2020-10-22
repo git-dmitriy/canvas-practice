@@ -18,7 +18,7 @@
 // todo Добавить звуковые эффекты
 // todo Завершение игры
 //    +* Проигрыш
-//    * Победа
+//    +* Победа
 //    * Отображение очков
 
 "use strict";
@@ -154,6 +154,11 @@ const game = {
       this.run();
     });
   },
+  end(message) {
+    game.running = false;
+    alert(message);
+    window.location.reload();
+  },
   random(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
   },
@@ -206,9 +211,7 @@ game.ball = {
       this.y = 0;
       this.dy *= -1;
     } else if (y + this.height > game.boardHeight) {
-      game.running = false;
-      alert("Вы проиграли!");
-      window.location.reload();
+      game.end("Вы проиграли!");
     }
   },
   hitBlock(element) {
