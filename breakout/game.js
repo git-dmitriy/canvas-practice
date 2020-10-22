@@ -33,6 +33,7 @@ const game = {
   boardWidth: 640,
   boardHeight: 360,
   running: true,
+  score: 0,
   sprites: {
     background: null,
     ball: null,
@@ -96,12 +97,19 @@ const game = {
     for (let block of this.blocks) {
       if (this.ball.collide(block) && block.active) {
         this.ball.hitBlock(block);
+        this.addScore();
       }
     }
   },
   collidePlatform() {
     if (this.ball.collide(this.platform)) {
       this.ball.bounceOff(this.platform);
+    }
+  },
+  addScore() {
+    this.score++;
+    if (this.score >= this.blocks.length) {
+      this.end("Вы победили!");
     }
   },
 
