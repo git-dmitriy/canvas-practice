@@ -20,7 +20,7 @@
 // todo Завершение игры
 //    +* Проигрыш
 //    +* Победа
-//    * Отображение очков
+//    +* Отображение очков
 
 "use strict";
 
@@ -47,6 +47,11 @@ const game = {
   init() {
     this.ctx = document.querySelector("#mycanvas").getContext("2d");
     this.setEvents();
+    this.setFontStyle();
+  },
+  setFontStyle() {
+    this.ctx.fillStyle = "#fff";
+    this.ctx.font = "18px Arial";
   },
   setEvents() {
     window.addEventListener("keydown", (e) => {
@@ -159,6 +164,7 @@ const game = {
     );
     this.ctx.drawImage(this.sprites.platform, this.platform.x, this.platform.y);
     this.renderBlocks();
+    this.ctx.fillText(`Score: ${this.score}`, 20, 30);
   },
   renderBlocks() {
     for (let block of this.blocks) {
