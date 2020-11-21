@@ -1,6 +1,7 @@
 game.snake = {
   game: game,
   cells: [],
+  moving: false,
   create() {
     let startCells = [
       { row: 7, col: 7 },
@@ -16,7 +17,13 @@ game.snake = {
       this.game.ctx.drawImage(this.game.sprites.body, cell.x, cell.y);
     });
   },
+  start() {
+    this.moving = true;
+  },
   move() {
+    if (!this.moving) {
+      return;
+    }
     // получить следующую ячейку
     let cell = this.getNextCell();
     // если такая ячейка есть
