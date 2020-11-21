@@ -82,11 +82,16 @@ let game = {
       this.sprites[key].addEventListener("load", onAssetLoad);
     }
   },
-  run() {
+  create() {
+    // создание игровых объектов
     this.board.create();
     this.snake.create();
-
+  },
+  render() {
+    // отрисовка игровых объектов
     window.requestAnimationFrame(() => {
+      // перед тем, как отрисовать новый кадр необходимо очистить предыдущий
+      this.ctx.clearRect(0, 0, this.width, this.height);
       this.ctx.drawImage(
         this.sprites.background,
         (this.width - this.sprites.background.width) / 2,
@@ -95,6 +100,19 @@ let game = {
       this.board.render();
       this.snake.render();
     });
+  },
+  update() {
+    // двигать змею
+    this.snake.move();
+    // отрисовывать новый кадр
+    this.render();
+  },
+  run() {
+    this.create();
+    // каждые 150мс
+    setInterval(() => {
+      this.update();
+    }, 150);
   },
 };
 
