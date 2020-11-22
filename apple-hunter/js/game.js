@@ -18,6 +18,7 @@ let game = {
     background: null,
     cell: null,
     body: null,
+    food: null,
   },
   start() {
     this.init();
@@ -86,6 +87,7 @@ let game = {
     // создание игровых объектов
     this.board.create();
     this.snake.create();
+    this.board.createFood();
     // установка игровых событий
     window.addEventListener("keydown", (e) => {
       this.snake.start(e.keyCode);

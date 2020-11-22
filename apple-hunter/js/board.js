@@ -23,12 +23,23 @@ game.board = {
       y: offsetY + cellSize * row,
     };
   },
+  createFood() {
+    // получить случайную доступную ячейку для яблока
+    let cell = this.cells[0];
+
+    // установить флаг cell.hasFood
+    cell.hasFood = true;
+  },
   getCell(row, col) {
     return this.cells.find((cell) => cell.row === row && cell.col === col);
   },
   render() {
     this.cells.forEach((cell) => {
       this.game.ctx.drawImage(this.game.sprites.cell, cell.x, cell.y);
+
+      if (cell.hasFood) {
+        this.game.ctx.drawImage(this.game.sprites.food, cell.x, cell.y);
+      }
     });
   },
 };
