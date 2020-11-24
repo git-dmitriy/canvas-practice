@@ -29,11 +29,20 @@ game.board = {
     return pool[index];
   },
   createFood() {
+    // получить текущее яблоко и обнулить флаг
+    let cell = this.cells.find((cell) => cell.hasFood);
+    if (cell) {
+      cell.hasFood = false;
+    }
+
     // получить случайную доступную ячейку для яблока
-    let cell = this.getRandomAvailableCell();
+    cell = this.getRandomAvailableCell();
 
     // установить флаг cell.hasFood
     cell.hasFood = true;
+  },
+  isFoodCell(cell) {
+    return cell.hasFood;
   },
   getCell(row, col) {
     return this.cells.find((cell) => cell.row === row && cell.col === col);
