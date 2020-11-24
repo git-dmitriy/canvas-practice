@@ -65,8 +65,15 @@ game.snake = {
     if (cell) {
       // добавить новую ячейку в snake.cells
       this.cells.unshift(cell);
-      // удалить последнюю ячейку из snake.cells
-      this.cells.pop();
+
+      // если новая ячейка не является яблоком
+      if (!this.game.board.isFoodCell(cell)) {
+        // удалить последнюю ячейку из snake.cells
+        this.cells.pop();
+      } else {
+        // если новая ячейка является яблоком
+        this.game.board.createFood();
+      }
     }
   },
   hasCell(cell) {
