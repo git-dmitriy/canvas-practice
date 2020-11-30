@@ -7,18 +7,22 @@ game.snake = {
     up: {
       row: -1,
       col: 0,
+      angle: 0,
     },
     down: {
       row: 1,
       col: 0,
+      angle: 180,
     },
     left: {
       row: 0,
       col: -1,
+      angle: 270,
     },
     right: {
       row: 0,
       col: 1,
+      angle: 90,
     },
   },
   create() {
@@ -35,8 +39,26 @@ game.snake = {
   renderHead() {
     // получить голову
     let head = this.cells[0];
-    // отрисовать голову
-    this.game.ctx.drawImage(this.game.sprites.head, head.x, head.y);
+
+    let halfSize = this.game.sprites.head.width / 2;
+
+    // сохранить исходное состояние контекста
+    this.game.ctx.save();
+
+    // перемещаем точку начала отсчета координат в координаты головы
+    this.game.ctx.translate(head.x, head.y);
+
+    // перемещаем точку начала отсчета координат в центр головы
+    this.game.ctx.translate(halfSize, halfSize);
+
+    // вращаем контекст относительно центра спрайта головы змеи
+    this.game.ctx.rotate((this.direction.angle * Math.PI) / 180);
+
+    // отрисовываем голову с учетом поворота контекста
+    this.game.ctx.drawImage(this.game.sprites.head, -halfSize, -halfSize);
+
+    // вернуть исходное состояние контекста
+    this.game.ctx.restore();
   },
   renderBody() {
     for (let i = 1; i < this.cells.length; i++) {
