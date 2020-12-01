@@ -20,6 +20,7 @@ let game = {
     head: null,
     body: null,
     food: null,
+    bomb: null,
   },
   random(min, max) {
     return Math.floor(Math.random() * (max + 1 - min)) + min;
@@ -92,6 +93,7 @@ let game = {
     this.board.create();
     this.snake.create();
     this.board.createFood();
+    this.board.createBomb();
     // установка игровых событий
     window.addEventListener("keydown", (e) => {
       this.snake.start(e.keyCode);
@@ -123,6 +125,13 @@ let game = {
     setInterval(() => {
       this.update();
     }, 150);
+
+    // каждые 3с
+    setInterval(() => {
+      if (this.snake.moving) {
+        this.board.createBomb();
+      }
+    }, 3000);
   },
 };
 
