@@ -1,4 +1,4 @@
-const { watch, parallel, series, src, dest } = require("gulp");
+const { watch, series, src, dest } = require("gulp");
 const browserSync = require("browser-sync").create();
 const babel = require("gulp-babel");
 const clean = require("gulp-clean");
@@ -9,17 +9,17 @@ const path = {
   src: {
     html: `${project}/src/**/*.html`,
     css: `${project}/src/styles/main.css`,
-    js: `${project}/src/js/index.js`,
+    js: `${project}/src/js/main.js`,
   },
   build: {
     html: `${project}/build`,
-    css: `${project}/build/styles/main.css`,
-    js: `${project}/build/js/index.js`,
+    css: `${project}/build/styles/`,
+    js: `${project}/build/js/`,
   },
   watch: {
     html: `${project}/src/**/*.html`,
     css: `${project}/src/styles/**/*.css`,
-    js: `${project}/src/js/**/.js`,
+    js: `${project}/src/js/**/*.js`,
   },
   clean: `${project}/build/`,
 };
@@ -30,7 +30,7 @@ function reload(cb) {
 }
 
 module.exports.cleanBuild = cleanBuild = () => {
-  return src(path.clean, { read: false }).pipe(clean());
+  return src(path.clean, { read: false, allowEmpty: true }).pipe(clean());
 };
 
 module.exports.buildJS = buildJS = () => {
@@ -61,11 +61,11 @@ module.exports.server = server = (done) => {
   browserSync.init({
     server: {
       baseDir: "particles/build",
-      // serveStaticOptions: {
-      //   extensions: ["html"],
-      // },
-      open: true,
+      serveStaticOptions: {
+        extensions: ["html"],
+      },
     },
+    open: false,
   });
   done();
 };
