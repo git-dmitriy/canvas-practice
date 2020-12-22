@@ -25,7 +25,7 @@ const path = {
 };
 
 function reload(cb) {
-  bs.reload();
+  browserSync.reload();
   cb();
 }
 
@@ -33,7 +33,7 @@ module.exports.cleanBuild = cleanBuild = () => {
   return src(path.clean, { read: false }).pipe(clean());
 };
 
-module.exports.buildJs = function buildJS() {
+module.exports.buildJS = buildJS = () => {
   return src(path.src.js)
     .pipe(
       babel({
@@ -43,29 +43,27 @@ module.exports.buildJs = function buildJS() {
     .pipe(dest(path.build.js));
 };
 
-module.exports.html = function html() {
+module.exports.html = html = () => {
   return src(path.src.html).pipe(dest(path.build.html));
 };
 
-module.exports.css = function css() {
+module.exports.css = css = () => {
   return src(path.src.css).pipe(dest(path.build.css));
 };
 
-module.exports.watching = function watching(done) {
-  watch([path.src.html, path.src.css, path.src.js], (done) => {
-    browserSync.reload();
-    done();
-  });
-  done();
+module.exports.watching = watching = () => {
+  watch(path.watch.html, series(html, reload));
+  watch(path.watch.css, series(css, reload));
+  watch(path.watch.js, series(buildJS, reload));
 };
 
-module.exports.server = function server(done) {
+module.exports.server = server = (done) => {
   browserSync.init({
     server: {
       baseDir: "particles/build",
-      serveStaticOptions: {
-        extensions: ["html"],
-      },
+      // serveStaticOptions: {
+      //   extensions: ["html"],
+      // },
       open: true,
     },
   });
