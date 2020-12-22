@@ -1,7 +1,7 @@
 const { watch, parallel, series, src, dest } = require("gulp");
 const browserSync = require("browser-sync").create();
 const babel = require("gulp-babel");
-// const clean = require("gulp-clean");
+const clean = require("gulp-clean");
 
 const project = "particles";
 
@@ -29,9 +29,9 @@ function reload(cb) {
   cb();
 }
 
-// module.exports.cleanBuild = cleanBuild = () => {
-//   return src(path.clean, { read: false }).pipe(clean());
-// };
+module.exports.cleanBuild = cleanBuild = () => {
+  return src(path.clean, { read: false }).pipe(clean());
+};
 
 module.exports.buildJs = function buildJS() {
   return src(path.src.js)
