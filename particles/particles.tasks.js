@@ -2,6 +2,7 @@ const { watch, series, src, dest } = require("gulp");
 const browserSync = require("browser-sync").create();
 const babel = require("gulp-babel");
 const clean = require("gulp-clean");
+const webpack = require("webpack-stream");
 
 const project = "particles";
 
@@ -35,6 +36,13 @@ module.exports.cleanBuild = cleanBuild = () => {
 
 module.exports.buildJS = buildJS = () => {
   return src(path.src.js)
+    .pipe(
+      webpack({
+        output: {
+          filename: "main.js",
+        },
+      })
+    )
     .pipe(
       babel({
         presets: ["@babel/preset-env"],
