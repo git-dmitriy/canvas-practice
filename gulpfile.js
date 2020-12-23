@@ -1,5 +1,7 @@
-const { watch, parallel } = require("gulp");
+const { watch, parallel, series } = require("gulp");
 const browserSync = require("browser-sync").create();
+
+const particles = require("./particles/particles.tasks");
 
 const project = {
   breakOut: "breakout/",
@@ -46,6 +48,13 @@ function watchingAppleHunter(done) {
 }
 
 exports.breakOut = parallel(serverBreakOut, watchingBreakOut);
+
 exports.appleHunter = parallel(serverAppleHunter, watchingAppleHunter);
+
+exports.particles = series(
+  particles.cleanBuild,
+  parallel(particles.html, particles.css, particles.buildJS),
+  parallel(particles.server, particles.watching)
+);
 
 // exports.default = parallel(server, watching);
