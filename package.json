@@ -15,7 +15,9 @@
     "webpack-stream": "^6.1.1"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "particles": "gulp particles",
+    "apple:hunter": "gulp appleHunter",
+    "break:out": "gulp breakOut"
   },
   "repository": {
     "type": "git",
