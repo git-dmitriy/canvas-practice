@@ -1,4 +1,3 @@
-
 const canvas = document.createElement("canvas");
 canvas.classList.add("canvas");
 document.querySelector("body").append(canvas);
@@ -97,6 +96,7 @@ function animate() {
 }
 
 function connection() {
+  let opacity = 1;
   for (let a = 0; a < particlesArray.length; a++) {
     for (let b = a; b < particlesArray.length; b++) {
       let distance =
@@ -106,7 +106,8 @@ function connection() {
           (particlesArray[a].y - particlesArray[b].y);
 
       if (distance < (canvas.width / 7) * (canvas.height / 7)) {
-        ctx.strokeStyle = "rgba(51, 51, 51, 1)";
+        opacity = 1 - distance / 20000;
+        ctx.strokeStyle = `rgba(51, 51, 51, ${opacity})`;
         ctx.lineWidth = 1;
         ctx.beginPath();
         ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
