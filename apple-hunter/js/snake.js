@@ -88,7 +88,9 @@ game.snake = {
         this.direction = this.directions.down;
         break;
     }
-
+    if (!this.moving) {
+      this.game.onSnakeStart();
+    }
     this.moving = true;
   },
   move() {
@@ -111,7 +113,7 @@ game.snake = {
         this.cells.pop();
       } else {
         // если новая ячейка является яблоком
-        this.game.board.createFood();
+        this.game.onSnakeEat();
       }
     }
   },
