@@ -97,8 +97,11 @@ game.snake = {
     }
     // получить следующую ячейку
     let cell = this.getNextCell();
-    // если такая ячейка есть
-    if (cell) {
+
+    if (!cell || this.hasCell(cell) || this.game.board.isBombCell(cell)) {
+      // остановить игру
+      this.game.stop();
+    } else {
       // добавить новую ячейку в snake.cells
       this.cells.unshift(cell);
 
