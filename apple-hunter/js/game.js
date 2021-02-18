@@ -122,16 +122,22 @@ let game = {
   run() {
     this.create();
     // каждые 150мс
-    setInterval(() => {
+    this.gameInterval = setInterval(() => {
       this.update();
     }, 150);
 
     // каждые 3с
-    setInterval(() => {
+    this.bombInterval = setInterval(() => {
       if (this.snake.moving) {
         this.board.createBomb();
       }
     }, 3000);
+  },
+  stop() {
+    clearInterval(this.gameInterval);
+    clearInterval(this.bombInterval);
+    alert("Игра завершена");
+    window.location.reload();
   },
 };
 
