@@ -4,6 +4,7 @@ let game = {
   board: null,
   width: 0,
   height: 0,
+  score: 0,
   dimensions: {
     max: {
       width: 640,
@@ -40,6 +41,11 @@ let game = {
     this.canvas = document.getElementById("mycanvas");
     this.ctx = this.canvas.getContext("2d");
     this.initDimensions();
+    this.setTextFont();
+  },
+  setTextFont() {
+    this.ctx.font = "20px Cactus";
+    this.ctx.fillStyle = "#FFFFFF";
   },
   initDimensions() {
     let data = {
@@ -130,6 +136,7 @@ let game = {
       );
       this.board.render();
       this.snake.render();
+      this.ctx.fillText("Score: " + this.score, 30, 30);
     });
   },
   update() {
@@ -164,9 +171,12 @@ let game = {
     this.sounds.theme.play();
   },
   onSnakeEat() {
+    ++this.score;
     this.sounds.food.play();
     this.board.createFood();
   },
 };
 
-game.start();
+window.addEventListener("load", () => {
+  game.start();
+});
