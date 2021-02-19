@@ -44,7 +44,7 @@ let game = {
     this.setTextFont();
   },
   setTextFont() {
-    this.ctx.font = "20px Arial";
+    this.ctx.font = "20px Cactus";
     this.ctx.fillStyle = "#FFFFFF";
   },
   initDimensions() {
@@ -177,4 +177,6 @@ let game = {
   },
 };
 
-game.start();
+window.addEventListener("load", () => {
+  game.start();
+});
