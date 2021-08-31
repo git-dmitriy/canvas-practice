@@ -17,7 +17,7 @@
   "scripts": {
     "particles": "gulp particles",
     "apple:hunter": "gulp appleHunter",
-    "break:out": "gulp breakOut"
+    "breakout": "gulp breakout"
   },
   "repository": {
     "type": "git",
