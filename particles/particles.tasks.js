@@ -38,6 +38,7 @@ module.exports.buildJS = buildJS = () => {
   return src(path.src.js)
     .pipe(
       webpack({
+        mode: "development",
         output: {
           filename: "main.js",
         },
