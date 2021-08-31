@@ -1,15 +1,7 @@
-import { Particle } from "./floatingParticles/floatingPaticles";
+import { BackgroundParticles } from './floatingParticles/BackgroundParticles';
 
-document.addEventListener("DOMContentLoaded", () => {
-  const particles = new Particle(
-    document.querySelector("#canvas"),
-    canvas.getContext("2d"),
-    100,
-    100,
-    1,
-    1,
-    5,
-    "black"
-  );
+document.addEventListener('DOMContentLoaded', () => {
+  const particles = new BackgroundParticles();
+
   particles.init();
 });
