@@ -1,27 +1,27 @@
-const { watch, parallel, series } = require("gulp");
-const browserSync = require("browser-sync").create();
+const { watch, parallel, series } = require('gulp');
+const browserSync = require('browser-sync').create();
 
-const particles = require("./particles/particles.tasks");
+const particles = require('./particles/particles.tasks');
 
 const project = {
-  breakOut: "breakout/",
-  appleHunter: "apple-hunter/",
+  breakout: 'breakout/',
+  appleHunter: 'apple-hunter/',
 };
 
-function serverBreakOut(done) {
+function serverBreakout(done) {
   browserSync.init({
     server: {
-      baseDir: project.breakOut,
+      baseDir: project.breakout,
       serveStaticOptions: {
-        extensions: ["html"],
+        extensions: ['html'],
       },
     },
   });
   done();
 }
 
-function watchingBreakOut(done) {
-  watch(`${project.breakOut}**/*.*`, (done) => {
+function watchingBreakout(done) {
+  watch(`${project.breakout}**/*.*`, (done) => {
     browserSync.reload();
     done();
   });
@@ -32,7 +32,7 @@ function serverAppleHunter(done) {
     server: {
       baseDir: project.appleHunter,
       serveStaticOptions: {
-        extensions: ["html"],
+        extensions: ['html'],
       },
     },
   });
@@ -47,7 +47,7 @@ function watchingAppleHunter(done) {
   done();
 }
 
-exports.breakOut = parallel(serverBreakOut, watchingBreakOut);
+exports.breakout = parallel(serverBreakout, watchingBreakout);
 
 exports.appleHunter = parallel(serverAppleHunter, watchingAppleHunter);
 
@@ -56,5 +56,3 @@ exports.particles = series(
   parallel(particles.html, particles.css, particles.buildJS),
   parallel(particles.server, particles.watching)
 );
-
-// exports.default = parallel(server, watching);
