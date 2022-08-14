@@ -4,7 +4,7 @@ Small projects to practice in canvas api.
 
 ## Breakout
 
-Demo level of breakout arcade
+[Demo level](https://breakout-dmitriy.netlify.app/) of breakout arcade
 
 - Animating sprites
 - Sounds
@@ -14,7 +14,7 @@ Demo level of breakout arcade
 
 ## Apple Hunter
 
-Demo level of snake game
+[Demo level](https://snake-dmitriy.netlify.app/) of snake game
 
 - Using sprites
 - Sounds
@@ -23,7 +23,7 @@ Demo level of snake game
 
 ## Particles
 
-Implementation of random floating particles effect for portfolio site
+[Implementation](https://custom-particles-dmitriy.netlify.app/) of random floating particles effect for portfolio site
 
 ![screenshot-animation](/particles.gif)
 
